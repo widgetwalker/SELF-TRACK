@@ -1,217 +1,39 @@
- Project Overview
+# Self-Tracking & Workforce Management Platform
 
-The Self Tracking & Workforce Management System is a backend platform designed to manage employees, tasks, leaves, skills, salaries, notifications, and analytics in a secure and scalable way.
+This repository houses the entire Self-Tracking platform, including the backend API, ML services, and frontend applications.
 
-It supports role-based access control (Admin / Employee), provides real-time notifications, and generates analytics & productivity insights.
+## Repository Structure (`main` branch)
 
-This backend is designed to integrate with:
+This `main` branch uses a monorepo structure to organize all components:
 
-React (Web)
+- **`backend/`**: Node.js/Express API server and ML services
+  - `src/`: Core backend logic (formerly root-level files)
+  - `ml-service/`: Python ML microservices
+- **`frontend/`**: React/React Native application
+- **`docs/`**: Project documentation and PRD
+- **`infrastructure/`**: Docker and deployment configurations
+- **`database/`**: Database migrations and seeds
 
-React Native (Mobile)
+## Branch Workflow & Merging
 
-Future ML microservices (Python)
+We maintain separate active development branches. The `main` branch is the integration hub.
 
- System Architecture
-Client (Web / Mobile)
-        |
-        v
-Node.js Backend (Express)
-        |
-        |-- Authentication & RBAC (JWT)
-        |-- Business APIs
-        |-- Analytics & Notifications
-        |
-        v
-MongoDB Atlas
+### For Team Members
+Continue working in your dedicated branches:
+- **`back-end`**: Active backend development
+- **`front-end`**: Active frontend development
 
-Planned ML Architecture (Next Phase)
-Node.js Backend
-        |
-        v
-Python ML Service (FastAPI)
-        |
-        v
-Predictions stored in MongoDB
+### Merging to Main
+When merging `back-end` or `front-end` into `main`, Git will automatically handle file moves.
 
- Backend Tech Stack
+**To merge backend changes:**
+```bash
+git checkout main
+git merge back-end
+```
+*Note: If merge conflicts occur due to file moves, Git usually resolves them intelligently. If files appear as "New" in the root, simply move them to `backend/src/`.*
 
-Node.js
-
-Express.js
-
-MongoDB Atlas
-
-Mongoose
-
-JWT Authentication
-
-Role-Based Access Control (RBAC)
-
- User Roles
- Employee
-
-View & update own tasks
-
-Apply for leave
-
-View leave history
-
-Update skill profile
-
-View own salary
-
-View notifications
-
-View analytics dashboard
-
- Admin
-
-Create & assign tasks
-
-Approve / reject leaves
-
-Upload salaries
-
-View all employees & skills
-
-View system-wide analytics
-
- Project Folder Structure
-src/
-├── controllers/
-│   ├── auth.controller.js
-│   ├── task.controller.js
-│   ├── leave.controller.js
-│   ├── skill.controller.js
-│   ├── salary.controller.js
-│   ├── dashboard.controller.js
-│   ├── analytics.controller.js
-│   └── notification.controller.js
-│
-├── models/
-│   ├── user.model.js
-│   ├── task.model.js
-│   ├── leave.model.js
-│   ├── salary.model.js
-│   └── notification.model.js
-│
-├── routes/
-│   ├── auth.routes.js
-│   ├── task.routes.js
-│   ├── leave.routes.js
-│   ├── skill.routes.js
-│   ├── salary.routes.js
-│   ├── dashboard.routes.js
-│   ├── analytics.routes.js
-│   └── notification.routes.js
-│
-├── middleware/
-│   ├── auth.middleware.js
-│   └── role.middleware.js
-│
-├── config/
-│   ├── db.js
-│   └── env.js
-│
-├── app.js
-└── server.js
-
- Authentication & Authorization
-
-JWT-based authentication
-
-Password hashing with bcrypt
-
-Protected routes using middleware
-
-Role-based access (admin, employee)
-
- API Endpoints
-
- Authentication
-POST   /api/auth/register
-POST   /api/auth/login
-GET    /api/auth/me
-
- Tasks
-POST   /api/tasks              (Admin)
-GET    /api/tasks/my           (Employee)
-PUT    /api/tasks/:id/status   (Employee)
-
- Leave Management
-POST   /api/leaves             (Employee)
-GET    /api/leaves/my          (Employee)
-GET    /api/leaves             (Admin)
-PUT    /api/leaves/:id/status  (Admin)
-
- Skills
-GET    /api/skills/my          (Employee)
-PUT    /api/skills/my          (Employee)
-GET    /api/skills/all         (Admin)
-
- Salary / Payslip
-POST   /api/salary             (Admin)
-GET    /api/salary/my          (Employee)
-
- Notifications
-GET    /api/notifications/my
-PUT    /api/notifications/:id/read
-
-
-Triggered on:
-
-Task assignment
-
-Leave approval/rejection
-
-Salary upload
-
- Dashboard
-GET    /api/dashboard
-
-
-Returns role-based summary data.
-
- Analytics
-GET    /api/analytics
-
-
-Provides:
-
-Productivity score
-
-Task completion stats
-
-Leave usage
-
-System-wide insights (admin)
-
- Environment Variables
-
-Create a .env file:
-
-PORT=5000
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_secret_key
-
- Run the Project Locally
-npm install
-npm run dev
-
-
-Server runs on:
-
-http://localhost:5000
-
- Future Enhancements
-
-ML-based productivity scoring
-
-Burnout risk detection
-
-Anomaly detection
-
-Email & push notifications
-
-Advanced analytics dashboards
+### Setup & Run
+See detailed instructions in:
+- [Backend README](./backend/README.md)
+- [Frontend README](./frontend/README.md)
