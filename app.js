@@ -30,6 +30,8 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/salary', salaryRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/ml', require('./routes/ml.routes'));
+
 
 
 
