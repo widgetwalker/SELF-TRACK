@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WorkTrack - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="home-wrapper">
+    
+    <header class="hero-section">
+        <div class="hero-container">
+            <h1 class="hero-title">Track, Manage, and Optimize Your Work-Life</h1>
+            <p class="hero-description">The all-in-one platform for modern employees to manage tasks, track performance, and maintain wellness.</p>
+            <div class="hero-actions">
+                <a href="login.html" class="btn-cta">Get Started</a>
+                <a href="#features" class="nav-link">Learn More</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features-container">
+        <div class="features-header">
+            <h2>Powerful Features</h2>
+            <p>Everything you need to succeed in your professional journey.</p>
+        </div>
+
+        <div class="features-grid">
+            <article class="feature-item">
+                <div class="feature-icon-wrapper">
+                    <i data-lucide="check-square"></i>
+                </div>
+                <h3>Task Management</h3>
+                <p>Track and manage your daily tasks with ease and priority levels.</p>
+            </article>
+
+            <article class="feature-item">
+                <div class="feature-icon-wrapper">
+                    <i data-lucide="bar-chart-3"></i>
+                </div>
+                <h3>Performance Insights</h3>
+                <p>Advanced analytics to visualize your productivity and growth over time.</p>
+            </article>
+
+            <article class="feature-item">
+                <div class="feature-icon-wrapper">
+                    <i data-lucide="shield"></i>
+                </div>
+                <h3>Burnout Detection</h3>
+                <p>Monitor stress levels and prevent workplace burnout before it happens.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="cta-wrapper">
+        <div class="cta-card">
+            <h2>Ready to Get Started?</h2>
+            <p>Join thousands of employees who are already tracking their work efficiently.</p>
+            <a href="login.html" class="btn-cta">
+                Login Now <i data-lucide="arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 WorkTrack Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize icons for this page
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

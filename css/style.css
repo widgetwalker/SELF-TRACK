@@ -1,0 +1,191 @@
+/* Design tokens from index.css */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 265 4% 12.9%;
+  --card: 0 0% 100%;
+  --border: 220 13% 91%;
+  --primary: 266 4% 20.8%;
+  --primary-foreground: 210 40% 98%;
+  --muted: 220 14.3% 95.9%;
+  --muted-foreground: 220 8.9% 46.1%;
+  --success: 142 76% 36%;
+  --warning: 38 92% 50%;
+  --destructive: 0 84% 60%;
+  --radius: 0.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  margin: 0;
+  display: flex;
+}
+
+/* Layout - DashboardLayout.tsx replacement */
+.sidebar {
+  width: 260px;
+  background: hsl(var(--card));
+  border-right: 1px solid hsl(var(--border));
+  height: 100vh;
+  position: fixed;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  min-height: 100vh;
+}
+
+.header {
+  height: 64px;
+  background: hsl(var(--card));
+  border-bottom: 1px solid hsl(var(--border));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Navigation - NavLink.tsx & sidebar.tsx replacement */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: hsl(var(--muted-foreground));
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: hsl(var(--primary));
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+/* Components - card.tsx replacement */
+.card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Productivity Gauge - ProductivityGauge.tsx replacement */
+.gauge-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+}
+
+.gauge-svg {
+  transform: rotate(-90deg);
+}
+
+.gauge-bg {
+  fill: none;
+  stroke: hsl(var(--muted));
+  stroke-width: 12;
+}
+
+.gauge-path {
+  fill: none;
+  stroke: hsl(var(--success));
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.gauge-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.gauge-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--success));
+}
+
+/* Forms - input.tsx & button.tsx replacement */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+}
+
+.btn-primary {
+  background: hsl(var(--primary));
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+}
