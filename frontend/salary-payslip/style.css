@@ -1,0 +1,144 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f6f7fb;
+  color: #1f2937;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header p {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.stat-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.stat-card h2 {
+  margin: 6px 0;
+}
+
+.stat-card span {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.icon.blue { background: #e0e7ff; color: #3730a3; }
+.icon.green { background: #dcfce7; color: #047857; }
+.icon.gray { background: #f3f4f6; }
+
+.section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+.section h3 {
+  margin-top: 0;
+}
+
+.payslip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.payslip-card {
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-header span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.download-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+.row.green { color: #047857; }
+.row.red { color: #b91c1c; }
+
+.net {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.structure {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.structure p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #6b7280;
+}

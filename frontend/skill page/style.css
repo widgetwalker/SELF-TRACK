@@ -1,0 +1,153 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f6f7fb;
+  color: #1f2937;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header p {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.add-btn {
+  background: #111827;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.summary-card.highlight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.summary-card .icon {
+  width: 42px;
+  height: 42px;
+  background: #e0e7ff;
+  color: #3730a3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.summary-card p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.summary-card h2 {
+  margin: 6px 0 0;
+}
+
+.green {
+  color: #047857;
+}
+
+.controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.search {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.filter {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.skill-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.category {
+  margin: 6px 0 10px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: #111827;
+}
+
+.level {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #6b7280;
+}

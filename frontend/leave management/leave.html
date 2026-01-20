@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Leave Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <div>
+        <h1>Leave Management</h1>
+        <p>Apply for leave and track your requests</p>
+      </div>
+      <button class="apply-btn">+ Apply Leave</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div>
+          <p class="label">Annual Leave</p>
+          <h2>14 days</h2>
+          <p class="sub">Available balance</p>
+        </div>
+        <div class="icon blue">📅</div>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <p class="label">Sick Leave</p>
+          <h2>8 days</h2>
+          <p class="sub">Available balance</p>
+        </div>
+        <div class="icon orange">🕒</div>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <p class="label">Approved</p>
+          <h2>3</h2>
+          <p class="sub">This year</p>
+        </div>
+        <div class="icon green">✔</div>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <p class="label">Rejected</p>
+          <h2>1</h2>
+          <p class="sub">This year</p>
+        </div>
+        <div class="icon red">✖</div>
+      </div>
+    </div>
+
+    <div class="history">
+      <h3>Leave History</h3>
+
+      <div class="history-grid">
+
+        <div class="leave-card">
+          <div class="top">
+            <span class="type">Annual Leave</span>
+            <span class="status pending">Pending</span>
+          </div>
+          <p class="reason">Family vacation during the holiday season.</p>
+          <div class="meta">
+            <span>Dec 26, 2024 – Dec 30, 2024</span>
+            <span>5 days</span>
+          </div>
+        </div>
+
+        <div class="leave-card">
+          <div class="top">
+            <span class="type">Sick Leave</span>
+            <span class="status approved">Approved</span>
+          </div>
+          <p class="reason">Not feeling well, need rest.</p>
+          <div class="meta">
+            <span>Dec 15, 2024 – Dec 16, 2024</span>
+            <span>2 days</span>
+          </div>
+        </div>
+
+        <div class="leave-card">
+          <div class="top">
+            <span class="type personal">Personal Leave</span>
+            <span class="status approved">Approved</span>
+          </div>
+          <p class="reason">Personal errands.</p>
+          <div class="meta">
+            <span>Nov 28, 2024</span>
+            <span>1 day</span>
+          </div>
+        </div>
+
+        <div class="leave-card">
+          <div class="top">
+            <span class="type">Annual Leave</span>
+            <span class="status rejected">Rejected</span>
+          </div>
+          <p class="reason">Team building event overlap.</p>
+          <div class="meta">
+            <span>Oct 10, 2024 – Oct 14, 2024</span>
+            <span>5 days</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

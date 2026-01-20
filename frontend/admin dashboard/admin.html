@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p>Organization-wide analytics and ML insights</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn">Filters</button>
+        <button class="btn">Export</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <span>Total Employees</span>
+        <h2>50</h2>
+        <p>Active this month</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Avg. Productivity</span>
+        <h2>80%</h2>
+        <p class="green">+5% vs last month</p>
+      </div>
+
+      <div class="stat-card">
+        <span>High Burnout Risk</span>
+        <h2>3</h2>
+        <p>Require attention</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Anomalies Detected</span>
+        <h2>2</h2>
+        <p>This week</p>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>Productivity by Department</h3>
+        <canvas id="deptChart" height="220"></canvas>
+      </div>
+
+      <div class="card">
+        <h3>Burnout Risk Distribution</h3>
+        <canvas id="riskChart" height="220"></canvas>
+        <div class="legend">
+          <span class="low">● Low Risk</span>
+          <span class="medium">● Medium Risk</span>
+          <span class="high">● High Risk</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card full">
+      <div class="table-header">
+        <h3>Employees Requiring Attention</h3>
+        <button class="btn small">View All</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Department</th>
+            <th>Risk Level</th>
+            <th>Weekly Hours</th>
+            <th>Tasks</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sarah Johnson</td>
+            <td>Engineering</td>
+            <td><span class="badge high">High Risk</span></td>
+            <td class="warn">52 hrs</td>
+            <td>18</td>
+            <td>👁</td>
+          </tr>
+          <tr>
+            <td>Mike Chen</td>
+            <td>Sales</td>
+            <td><span class="badge high">High Risk</span></td>
+            <td class="warn">48 hrs</td>
+            <td>22</td>
+            <td>👁</td>
+          </tr>
+          <tr>
+            <td>Emily Davis</td>
+            <td>Marketing</td>
+            <td><span class="badge medium">Medium Risk</span></td>
+            <td>45 hrs</td>
+            <td>15</td>
+            <td>👁</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

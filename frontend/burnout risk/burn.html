@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Burnout Risk Assessment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <h1>Burnout Risk Assessment</h1>
+      <p>Monitor your wellness and prevent burnout</p>
+    </div>
+
+    <div class="top-grid">
+
+      <div class="risk-banner low">
+        <div class="icon">🛡</div>
+        <div>
+          <h3>Low Risk</h3>
+          <p>You are maintaining a healthy work-life balance.</p>
+        </div>
+        <span class="confidence">92% confidence</span>
+      </div>
+
+      <div class="card wide">
+        <h3>Weekly Stress Levels</h3>
+        <canvas id="stressChart" height="220"></canvas>
+        <div class="legend">
+          <span class="low">● Low (0–50%)</span>
+          <span class="medium">● Medium (50–70%)</span>
+          <span class="high">● High (70%+)</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <span>Risk Level</span>
+        <h2>Low</h2>
+        <p>Current status</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Avg. Work Hours</span>
+        <h2>8.2 hrs</h2>
+        <p>Daily average</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Overtime Days</span>
+        <h2>2</h2>
+        <p>This month</p>
+      </div>
+
+      <div class="stat-card">
+        <span>Break Compliance</span>
+        <h2>85%</h2>
+        <p>Taking regular breaks</p>
+      </div>
+    </div>
+
+    <div class="card full">
+      <h3>Wellness Recommendations</h3>
+
+      <div class="recommendations">
+        <div class="rec-card">
+          <div class="rec-icon">☕</div>
+          <h4>Take Regular Breaks</h4>
+          <p>Step away from your desk every 90 minutes to refresh your mind.</p>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-icon">🌙</div>
+          <h4>Maintain Sleep Schedule</h4>
+          <p>Aim for 7–8 hours of sleep to maintain peak cognitive function.</p>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-icon">🏃</div>
+          <h4>Physical Activity</h4>
+          <p>Incorporate 30 minutes of exercise into your daily routine.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

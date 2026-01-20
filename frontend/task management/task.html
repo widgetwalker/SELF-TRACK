@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <div>
+        <h1>Task Management</h1>
+        <p>Manage and track your assigned tasks</p>
+      </div>
+      <button class="new-task-btn">+ New Task</button>
+    </div>
+
+    <div class="controls">
+      <input
+        class="search"
+        type="text"
+        placeholder="Search tasks..."
+        onkeyup="searchTasks(this.value)"
+      />
+      <button class="filter-btn">Filters</button>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="filterStatus('all', this)">All</div>
+      <div class="tab" onclick="filterStatus('pending', this)">Pending</div>
+      <div class="tab" onclick="filterStatus('in-progress', this)">In Progress</div>
+      <div class="tab" onclick="filterStatus('completed', this)">Completed</div>
+      <div class="tab" onclick="filterStatus('overdue', this)">Overdue</div>
+    </div>
+
+    <div id="taskList">
+
+      <div class="task-card in-progress" data-status="in-progress">
+        <div class="task-header">
+          <div class="task-title">Complete quarterly report</div>
+          <span class="badge in-progress">In Progress</span>
+        </div>
+        <p class="task-desc">
+          Prepare and submit the Q4 financial report for the management review meeting scheduled next week.
+        </p>
+        <div class="task-footer">
+          <span>Dec 25, 2024</span>
+          <div class="progress-wrapper">
+            <span>65%</span>
+            <div class="progress-bar">
+              <div class="progress" style="width:65%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card pending" data-status="pending">
+        <div class="task-header">
+          <div class="task-title">Team meeting preparation</div>
+          <span class="badge pending">Pending</span>
+        </div>
+        <p class="task-desc">
+          Create presentation slides for the upcoming team sync meeting.
+        </p>
+        <div class="task-footer">
+          <span>Dec 26, 2024</span>
+          <div class="progress-wrapper">
+            <span>20%</span>
+            <div class="progress-bar">
+              <div class="progress" style="width:20%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card overdue" data-status="overdue">
+        <div class="task-header">
+          <div class="task-title">Review pull requests</div>
+          <span class="badge overdue">Overdue</span>
+        </div>
+        <p class="task-desc">
+          Review and approve pending code changes from the development team.
+        </p>
+        <div class="task-footer">
+          <span>Dec 22, 2024</span>
+          <div class="progress-wrapper">
+            <span>0%</span>
+            <div class="progress-bar">
+              <div class="progress" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card completed" data-status="completed">
+        <div class="task-header">
+          <div class="task-title">Update documentation</div>
+          <span class="badge completed">Completed</span>
+        </div>
+        <p class="task-desc">
+          Update the project documentation with the latest API changes and features.
+        </p>
+        <div class="task-footer">
+          <span>Dec 20, 2024</span>
+          <div class="progress-wrapper">
+            <span>100%</span>
+            <div class="progress-bar">
+              <div class="progress" style="width:100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

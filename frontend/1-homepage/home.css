@@ -1,0 +1,114 @@
+/* Layout & Hero Section - Based on Home.tsx */
+.home-wrapper {
+  display: block;
+  width: 100%;
+}
+
+.hero-section {
+  padding: 5rem 1rem;
+  text-align: center;
+  background: linear-gradient(to bottom, hsl(var(--primary) / 0.05), transparent);
+}
+
+.hero-container {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: hsl(var(--foreground));
+  margin-bottom: 1.5rem;
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 2.5rem;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Features Grid - Based on Home.tsx Feature List */
+.features-container {
+  padding: 5rem 1rem;
+  background-color: hsl(var(--background));
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.feature-item {
+  padding: 2rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  transition: transform 0.2s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-4px);
+  border-color: hsl(var(--primary) / 0.2);
+}
+
+.feature-icon-wrapper {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* CTA Section */
+.cta-wrapper {
+  padding: 5rem 1rem;
+}
+
+.cta-card {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 3rem;
+  background-color: hsl(var(--primary) / 0.05);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  border-radius: 1.5rem;
+  text-align: center;
+}
+
+/* Common Button Classes - Based on button.tsx */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  padding: 0 2rem;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.btn-cta:hover {
+  opacity: 0.9;
+}

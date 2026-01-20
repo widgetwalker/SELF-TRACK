@@ -1,0 +1,145 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f6f7fb;
+  color: #1f2937;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.header p {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.new-task-btn {
+  background: #111827;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.search {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.filter-btn {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.tab.active {
+  color: #111827;
+  font-weight: 600;
+}
+
+.task-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 14px;
+  border-left: 4px solid transparent;
+}
+
+.task-card.pending { border-color: #f59e0b; }
+.task-card.in-progress { border-color: #3b82f6; }
+.task-card.completed { border-color: #10b981; }
+.task-card.overdue { border-color: #ef4444; }
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.task-desc {
+  margin: 8px 0 12px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.badge.pending { background: #fff7ed; color: #c2410c; }
+.badge.in-progress { background: #eff6ff; color: #1d4ed8; }
+.badge.completed { background: #ecfdf5; color: #047857; }
+.badge.overdue { background: #fef2f2; color: #b91c1c; }
+
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.progress-wrapper {
+  width: 160px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.progress {
+  height: 100%;
+  background: #111827;
+}

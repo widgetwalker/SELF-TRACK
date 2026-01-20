@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notifications</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <div class="title">
+        <span class="bell">🔔</span>
+        <div>
+          <h1>Notifications</h1>
+          <p><span id="unreadCount">3</span> unread notifications</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="mark-btn" onclick="markAllRead()">✔ Mark all read</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="filterType('all', this)">All</button>
+      <button class="tab" onclick="filterType('unread', this)">Unread</button>
+      <button class="tab" onclick="filterType('task', this)">Tasks</button>
+      <button class="tab" onclick="filterType('wellness', this)">Wellness</button>
+      <button class="tab" onclick="filterType('salary', this)">Salary</button>
+    </div>
+
+    <div class="list">
+
+      <div class="notification unread task" data-type="task">
+        <div class="icon task">☑</div>
+        <div class="content">
+          <h4>New Task Assigned</h4>
+          <p>You have been assigned a new task: “Complete quarterly report”. Due by Dec 25.</p>
+          <span class="time">2 hours ago</span>
+        </div>
+        <span class="dot"></span>
+      </div>
+
+      <div class="notification unread wellness" data-type="wellness">
+        <div class="icon wellness">⚠</div>
+        <div class="content">
+          <h4>Wellness Check</h4>
+          <p>Your burnout risk has decreased to low. Keep maintaining a healthy work-life balance!</p>
+          <span class="time">5 hours ago</span>
+        </div>
+        <span class="dot"></span>
+      </div>
+
+      <div class="notification unread salary" data-type="salary">
+        <div class="icon salary">₹</div>
+        <div class="content">
+          <h4>Payslip Available</h4>
+          <p>Your December 2024 payslip is now available for download.</p>
+          <span class="time">1 day ago</span>
+        </div>
+        <span class="dot"></span>
+      </div>
+
+      <div class="notification task" data-type="task">
+        <div class="icon task">✔</div>
+        <div class="content">
+          <h4>Leave Request Approved</h4>
+          <p>Your leave request for Dec 26–30 has been approved by your manager.</p>
+          <span class="time">2 days ago</span>
+        </div>
+      </div>
+
+      <div class="notification task" data-type="task">
+        <div class="icon task">⏰</div>
+        <div class="content">
+          <h4>Task Deadline Reminder</h4>
+          <p>Reminder: “Team meeting preparation” is due tomorrow.</p>
+          <span class="time">2 days ago</span>
+        </div>
+      </div>
+
+      <div class="notification wellness" data-type="wellness">
+        <div class="icon wellness">ℹ</div>
+        <div class="content">
+          <h4>Performance Review Scheduled</h4>
+          <p>Your annual performance review has been scheduled for January 5, 2025.</p>
+          <span class="time">3 days ago</span>
+        </div>
+      </div>
+
+      <div class="notification wellness" data-type="wellness">
+        <div class="icon wellness">📊</div>
+        <div class="content">
+          <h4>Weekly Wellness Report</h4>
+          <p>Your productivity score improved by 12% this week. Great job!</p>
+          <span class="time">4 days ago</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
