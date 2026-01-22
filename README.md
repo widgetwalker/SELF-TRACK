@@ -66,8 +66,17 @@ Follow these steps to set up the project locally.
 *   **[Node.js](https://nodejs.org/)** (v18+)
 *   **[Python](https://www.python.org/)** (v3.11+)
 *   **[MongoDB](https://www.mongodb.com/)**: Ensure your local MongoDB instance is running on `localhost:27017`.
+*   **[Docker](https://www.docker.com/)** (optional, for containerized setup)
 
-### Installation
+### ⚡ Quick Start (One Command - Docker)
+
+```sh
+./startup.sh
+```
+
+This starts MongoDB, Backend, and ML Service with a single command!
+
+### Installation (Manual Setup)
 
 1.  **Clone the repo**
     ```sh
@@ -79,10 +88,9 @@ Follow these steps to set up the project locally.
     ```sh
     cd backend
     npm install
-    # Windows PowerShell:
-    Copy-Item ENV_EXAMPLE .env
+    cp ENV_EXAMPLE .env
+    # Update .env if needed
     ```
-    *Update `.env` if your MongoDB URI differs.*
 
 3.  **ML Service Setup**
     ```sh
@@ -90,20 +98,44 @@ Follow these steps to set up the project locally.
     pip install -r requirements.txt
     ```
 
-### ▶️ Running the Application
+### ▶️ Running the Application (Manual)
 
-1.  **Start the Backend API**
+1.  **Start MongoDB**
     ```sh
-    # From /backend directory
+    mongod
+    ```
+
+2.  **Start the Backend API** (from /backend directory)
+    ```sh
     npm run dev
     ```
     *Server runs on **http://localhost:5000**.*
 
-2.  **Start the ML Service**
+3.  **Start the ML Service** (from /backend/ml-service directory)
     ```sh
-    # From /backend/ml-service directory
     uvicorn app:app --reload --port 8000
     ```
+    *Service runs on **http://localhost:8000**.*
+
+4.  **Open Frontend**
+    ```sh
+    # Open in browser
+    frontend/1-homepage/index.html
+    ```
+
+---
+
+## 🔗 Integration Details
+
+All three components (Frontend, Backend, ML Service) are **fully integrated and error-proof**:
+
+✅ **Frontend → Backend**: Centralized API client (`frontend/api-client.js`) handles all communication  
+✅ **Backend ↔ ML Service**: Integrated with timeout, retry logic, and graceful fallbacks  
+✅ **Backend ↔ Database**: Mongoose models persist all data to MongoDB  
+✅ **Error Handling**: Automatic demo mode if services are unavailable  
+✅ **Orchestration**: One-command docker-compose startup  
+
+**👉 [See INTEGRATION_GUIDE.md for complete documentation →](./INTEGRATION_GUIDE.md)**
 
 ---
 

@@ -5,5 +5,6 @@ const connectDB = require('./config/db');
 connectDB();
 
 app.listen(port, () => {
-  console.log(` Server running on port ${port}`);
+  console.log(` Self-Track Server running on http://localhost:${port}`);
+  console.log(` Access the application at: http://localhost:${port}`);
 });

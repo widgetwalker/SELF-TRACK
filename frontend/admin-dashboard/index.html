@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - SelfTrack</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">📊 SelfTrack Admin</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-link active" data-section="dashboard">
+          <span class="icon">📈</span> Dashboard
+        </a>
+        <a href="#" class="nav-link" data-section="employees">
+          <span class="icon">👥</span> Employees
+        </a>
+        <a href="#" class="nav-link" data-section="tasks">
+          <span class="icon">✓</span> Task Management
+        </a>
+        <a href="#" class="nav-link" data-section="leaves">
+          <span class="icon">📅</span> Leave Requests
+        </a>
+        <a href="#" class="nav-link" data-section="analytics">
+          <span class="icon">📊</span> Analytics
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">--</div>
+          <div class="user-details">
+            <p id="user-name">Loading...</p>
+            <small id="user-role">Admin</small>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 id="page-title">Admin Dashboard</h1>
+          <p id="page-subtitle">Organization Management</p>
+        </div>
+        <div class="topbar-right">
+          <span id="current-date"></span>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section active">
+          <!-- Top Stats -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">👥</div>
+              <div class="stat-content">
+                <p>Total Employees</p>
+                <h3 id="total-employees">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">✓</div>
+              <div class="stat-content">
+                <p>Active Tasks</p>
+                <h3 id="active-tasks">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📅</div>
+              <div class="stat-content">
+                <p>Pending Leaves</p>
+                <h3 id="pending-leaves">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📊</div>
+              <div class="stat-content">
+                <p>Avg Productivity</p>
+                <h3 id="avg-productivity">0%</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analytics Cards -->
+          <div class="grid-2">
+            <div class="card">
+              <h2>Team Productivity Overview</h2>
+              <div id="productivity-overview" class="analytics-chart"></div>
+            </div>
+            <div class="card">
+              <h2>Burnout Risk Assessment</h2>
+              <div id="burnout-overview" class="analytics-chart"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Employees Section -->
+        <section id="employees-section" class="section">
+          <div class="section-header">
+            <h2>Employees</h2>
+            <input type="search" id="employee-search" placeholder="Search employees..." style="padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; width: 250px;" />
+          </div>
+
+          <div class="employees-container">
+            <div class="employees-list">
+              <h3>Employee List</h3>
+              <div id="employees-list" class="list"></div>
+            </div>
+
+            <!-- Employee Details Panel -->
+            <div class="employee-details">
+              <div id="employee-panel-empty" class="empty-state">
+                <p>Select an employee to view details</p>
+              </div>
+              <div id="employee-panel-content" style="display: none;">
+                <h3 id="employee-detail-name"></h3>
+                <div class="tabs">
+                  <button class="tab-btn active" data-tab="profile">Profile</button>
+                  <button class="tab-btn" data-tab="leaves">Leave History</button>
+                  <button class="tab-btn" data-tab="salary">Salary</button>
+                  <button class="tab-btn" data-tab="analytics">Analytics</button>
+                </div>
+
+                <!-- Profile Tab -->
+                <div id="profile-tab" class="tab-content active">
+                  <div id="employee-profile-content"></div>
+                </div>
+
+                <!-- Leave History Tab -->
+                <div id="leaves-tab" class="tab-content">
+                  <div id="employee-leaves-content"></div>
+                </div>
+
+                <!-- Salary Tab -->
+                <div id="salary-tab" class="tab-content">
+                  <div id="employee-salary-content"></div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics-tab" class="tab-content">
+                  <div id="employee-analytics-content"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tasks Section -->
+        <section id="tasks-section" class="section">
+          <div class="section-header">
+            <h2>Task Management</h2>
+            <button class="btn-primary" onclick="openAssignTaskForm()">+ Assign New Task</button>
+          </div>
+
+          <!-- Task Assignment Form -->
+          <div id="task-form-container" class="card" style="display: none; margin-bottom: 2rem;">
+            <h3>Assign New Task</h3>
+            <form id="task-form" onsubmit="submitTask(event)">
+              <div class="form-group">
+                <label>Select Employee*</label>
+                <select id="task-employee" required>
+                  <option value="">Choose an employee...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Task Title*</label>
+                <input type="text" id="task-title" placeholder="e.g., Complete report" required />
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="task-description" rows="4" placeholder="Task description..."></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn-primary">Assign Task</button>
+                <button type="button" class="btn-secondary" onclick="closeAssignTaskForm()">Cancel</button>
+              </div>
+              <div id="task-form-message" class="message" style="display: none;"></div>
+            </form>
+          </div>
+
+          <!-- Tasks List -->
+          <div id="tasks-container" class="tasks-container"></div>
+        </section>
+
+        <!-- Leaves Section -->
+        <section id="leaves-section" class="section">
+          <div class="section-header">
+            <h2>Leave Requests</h2>
+            <span id="pending-leaves-count" style="font-size: 0.9rem; color: #999;"></span>
+          </div>
+
+          <div id="leaves-container" class="leaves-container"></div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics-section" class="section">
+          <div class="section-header">
+            <h2>Organization Analytics</h2>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="card">
+              <h3>Team Productivity Trend</h3>
+              <div id="productivity-trend" style="padding: 2rem; text-align: center; color: #999;">Loading...</div>
+            </div>
+            <div class="card">
+              <h3>Burnout Risk Distribution</h3>
+              <div id="burnout-distribution" style="padding: 2rem; text-align: center; color: #999;">Loading...</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="../api-client.js"></script>
+  <script src="admin-app.js"></script>
+</body>
+
+</html>

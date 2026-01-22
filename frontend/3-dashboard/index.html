@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Dashboard - SelfTrack</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">📊 SelfTrack</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-link active" data-section="dashboard">
+          <span class="icon">📈</span> Dashboard
+        </a>
+        <a href="#" class="nav-link" data-section="tasks">
+          <span class="icon">✓</span> Tasks <span class="badge" id="task-badge">0</span>
+        </a>
+        <a href="#" class="nav-link" data-section="leaves">
+          <span class="icon">📅</span> Leave Management
+        </a>
+        <a href="#" class="nav-link" data-section="skills">
+          <span class="icon">⭐</span> Skills
+        </a>
+        <a href="#" class="nav-link" data-section="analytics">
+          <span class="icon">📊</span> Analytics
+        </a>
+        <a href="#" class="nav-link" data-section="notifications">
+          <span class="icon">🔔</span> Notifications <span class="badge" id="notif-badge">0</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">--</div>
+          <div class="user-details">
+            <p id="user-name">Loading...</p>
+            <small id="user-role">--</small>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 id="page-title">Dashboard</h1>
+          <p id="page-subtitle">Welcome back to SelfTrack</p>
+        </div>
+        <div class="topbar-right">
+          <span id="current-date"></span>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section active">
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">✓</div>
+              <div class="stat-content">
+                <p>Pending Tasks</p>
+                <h3 id="pending-tasks">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🏁</div>
+              <div class="stat-content">
+                <p>Completed Tasks</p>
+                <h3 id="completed-tasks">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📅</div>
+              <div class="stat-content">
+                <p>Leave Balance</p>
+                <h3 id="leave-balance">0 days</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">⭐</div>
+              <div class="stat-content">
+                <p>Skills Mastered</p>
+                <h3 id="skills-mastered">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Tasks & Quick Actions -->
+          <div class="grid-2">
+            <div class="card">
+              <h2>Recent Tasks</h2>
+              <div id="recent-tasks" class="task-list"></div>
+            </div>
+            <div class="card">
+              <h2>Quick Actions</h2>
+              <div class="quick-actions">
+                <button class="btn-secondary" onclick="showSection('tasks')">📝 View All Tasks</button>
+                <button class="btn-secondary" onclick="showSection('leaves')">📅 Apply Leave</button>
+                <button class="btn-secondary" onclick="showSection('skills')">⭐ Update Skills</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tasks Section -->
+        <section id="tasks-section" class="section">
+          <div class="section-header">
+            <h2>My Tasks</h2>
+          </div>
+          <div id="tasks-container" class="tasks-container"></div>
+        </section>
+
+        <!-- Leaves Section -->
+        <section id="leaves-section" class="section">
+          <div class="section-header">
+            <h2>Leave Management</h2>
+            <button class="btn-primary" onclick="openLeaveForm()">+ Request Leave</button>
+          </div>
+
+          <!-- Leave Request Form -->
+          <div id="leave-form-container" class="card" style="display: none; margin-bottom: 2rem;">
+            <h3>New Leave Request</h3>
+            <form id="leave-form" onsubmit="submitLeaveRequest(event)">
+              <div class="form-group">
+                <label>Start Date*</label>
+                <input type="date" id="leave-start" required />
+              </div>
+              <div class="form-group">
+                <label>End Date*</label>
+                <input type="date" id="leave-end" required />
+              </div>
+              <div class="form-group">
+                <label>Reason*</label>
+                <textarea id="leave-reason" rows="4" placeholder="Enter reason for leave" required></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn-primary">Submit Request</button>
+                <button type="button" class="btn-secondary" onclick="closeLeaveForm()">Cancel</button>
+              </div>
+              <div id="form-message" class="message" style="display: none;"></div>
+            </form>
+          </div>
+
+          <!-- Leave History -->
+          <div id="leaves-container" class="leaves-container"></div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills-section" class="section">
+          <div class="section-header">
+            <h2>Skills Profile</h2>
+            <button class="btn-primary" onclick="openSkillForm()">+ Add Skill</button>
+          </div>
+
+          <!-- Skill Form -->
+          <div id="skill-form-container" class="card" style="display: none; margin-bottom: 2rem;">
+            <h3>Add New Skill</h3>
+            <form id="skill-form" onsubmit="submitSkill(event)">
+              <div class="form-group">
+                <label>Skill Name*</label>
+                <input type="text" id="skill-name" placeholder="e.g., JavaScript, Project Management" required />
+              </div>
+              <div class="form-group">
+                <label>Proficiency Level* (1-5)</label>
+                <select id="skill-level" required>
+                  <option value="">Select Level</option>
+                  <option value="1">1 - Beginner</option>
+                  <option value="2">2 - Basic</option>
+                  <option value="3">3 - Intermediate</option>
+                  <option value="4">4 - Advanced</option>
+                  <option value="5">5 - Expert</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn-primary">Add Skill</button>
+                <button type="button" class="btn-secondary" onclick="closeSkillForm()">Cancel</button>
+              </div>
+              <div id="skill-form-message" class="message" style="display: none;"></div>
+            </form>
+          </div>
+
+          <!-- Skills List -->
+          <div id="skills-container" class="skills-container"></div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics-section" class="section">
+          <div class="section-header">
+            <h2>Performance Analytics</h2>
+          </div>
+          <div id="analytics-container" class="analytics-container"></div>
+        </section>
+
+        <!-- Notifications Section -->
+        <section id="notifications-section" class="section">
+          <div class="section-header">
+            <h2>Notifications</h2>
+          </div>
+          <div id="notifications-container" class="notifications-container"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="../api-client.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

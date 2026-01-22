@@ -1,5 +1,6 @@
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/selftrack
 JWT_SECRET=replace_with_your_secure_jwt_secret
-ML_SERVICE_URL=http://localhost:8000
+ML_BASE_URL=http://localhost:8000
+ML_TIMEOUT=10000
 NODE_ENV=development
