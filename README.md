@@ -49,10 +49,10 @@ This project leverages a robust tech stack to ensure scalability and performance
 
 | Component | Technology | Description |
 | :--- | :--- | :--- |
+| **Frontend** | ![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB) ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat&logo=react-router&logoColor=white) | Modern SPA with routing |
 | **Backend** | ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=flat&logo=node.js&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=flat&logo=express&logoColor=%2361DAFB) | RESTful API & Business Logic |
 | **ML Service** | ![Python](https://img.shields.io/badge/python-3670A0?style=flat&logo=python&logoColor=ffdd54) ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi) | Predictive Models & Analytics |
 | **Database** | ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat&logo=mongodb&logoColor=white) | NoSQL Data Persistence |
-| **Frontend** | ![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB) | *Coming Soon* |
 | **DevOps** | ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white) | Containerization |
 
 ---
@@ -68,13 +68,19 @@ Follow these steps to set up the project locally.
 *   **[MongoDB](https://www.mongodb.com/)**: Ensure your local MongoDB instance is running on `localhost:27017`.
 *   **[Docker](https://www.docker.com/)** (optional, for containerized setup)
 
-### ⚡ Quick Start (One Command - Docker)
+### ⚡ Quick Start
 
+**Windows:**
+```sh
+start.bat
+```
+
+**Linux/Mac (Docker):**
 ```sh
 ./startup.sh
 ```
 
-This starts MongoDB, Backend, and ML Service with a single command!
+This starts all three services (Frontend, Backend, ML Service) with a single command!
 
 ### Installation (Manual Setup)
 
@@ -89,10 +95,18 @@ This starts MongoDB, Backend, and ML Service with a single command!
     cd backend
     npm install
     cp ENV_EXAMPLE .env
-    # Update .env if needed
+    # Update .env with your MongoDB URI
     ```
 
-3.  **ML Service Setup**
+3.  **Frontend Setup**
+    ```sh
+    cd frontend
+    npm install
+    # Create .env file (optional)
+    echo REACT_APP_API_BASE_URL=http://localhost:5000 > .env
+    ```
+
+4.  **ML Service Setup**
     ```sh
     cd backend/ml-service
     pip install -r requirements.txt
@@ -100,40 +114,40 @@ This starts MongoDB, Backend, and ML Service with a single command!
 
 ### ▶️ Running the Application (Manual)
 
-1.  **Start MongoDB**
-    ```sh
-    mongod
-    ```
-
-2.  **Start the Backend API** (from /backend directory)
+1.  **Start the Backend API** (from /backend directory)
     ```sh
     npm run dev
     ```
     *Server runs on **http://localhost:5000**.*
 
-3.  **Start the ML Service** (from /backend/ml-service directory)
+2.  **Start the ML Service** (from /backend/ml-service directory)
     ```sh
-    uvicorn app:app --reload --port 8000
+    py -m uvicorn app:app --reload --port 8000
     ```
     *Service runs on **http://localhost:8000**.*
 
-4.  **Open Frontend**
+3.  **Start the Frontend** (from /frontend directory)
     ```sh
-    # Open in browser
-    frontend/1-homepage/index.html
+    npm start
     ```
+    *React app runs on **http://localhost:3000**.*
+
+4.  **Access the Application**
+    - Homepage: http://localhost:3000
+    - Login: http://localhost:3000/login
+    - Dashboard: http://localhost:3000/dashboard
 
 ---
 
 ## 🔗 Integration Details
 
-All three components (Frontend, Backend, ML Service) are **fully integrated and error-proof**:
+All three components (Frontend, Backend, ML Service) are **fully integrated and operational**:
 
-✅ **Frontend → Backend**: Centralized API client (`frontend/api-client.js`) handles all communication  
+✅ **Frontend → Backend**: Centralized API client (`frontend/src/api-client-improved.js`) with retry logic and error handling  
 ✅ **Backend ↔ ML Service**: Integrated with timeout, retry logic, and graceful fallbacks  
-✅ **Backend ↔ Database**: Mongoose models persist all data to MongoDB  
-✅ **Error Handling**: Automatic demo mode if services are unavailable  
-✅ **Orchestration**: One-command docker-compose startup  
+✅ **Backend ↔ Database**: Mongoose models persist all data to MongoDB Atlas  
+✅ **Error Handling**: Comprehensive error handling with user-friendly messages  
+✅ **Orchestration**: One-command startup via `start.bat` (Windows) or `startup.sh` (Linux/Mac)  
 
 **👉 [See INTEGRATION_GUIDE.md for complete documentation →](./INTEGRATION_GUIDE.md)**
 
@@ -145,12 +159,12 @@ All three components (Frontend, Backend, ML Service) are **fully integrated and 
     - [x] Monorepo Structure
     - [x] Basic Auth & Role Management
     - [x] Task CRUD
-- [ ] **Phase 2: Intelligence**
+- [x] **Phase 2: Intelligence**
     - [x] ML Service Integration
     - [ ] Advanced Analytics Dashboard
     - [ ] Email Notifications
-- [ ] **Phase 3: Frontend**
-    - [ ] React Web App
+- [x] **Phase 3: Frontend**
+    - [x] React Web App
     - [ ] Mobile App (React Native)
 
 See the [open issues](https://github.com/widgetwalker/SELF-TRACK/issues) for a full list of proposed features.

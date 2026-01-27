@@ -1,69 +1,77 @@
 const Task = require('../models/task.model');
 const Notification = require('../models/notification.model');
+const { asyncHandler, AppError } = require('../utils/error-handler');
+const logger = require('../utils/logger');
 
+// Admin creates a task
+exports.createTask = asyncHandler(async (req, res) => {
+  const { title, description, assignedTo } = req.body;
 
-//  Admin creates a task
-exports.createTask = async (req, res) => {
-  try {
-    const { title, description, assignedTo } = req.body;
-
-    const task = await Task.create({
-      title,
-      description,
-      assignedTo,
-      createdBy: req.user._id
-    });
-
-    // create notification
-    await Notification.create({
-      user: assignedTo,
-      title: 'New Task Assigned',
-      message: 'you have been assigned a new task: ${title}'
-    });
-
-    res.status(201).json({
-      message: 'Task created successfully',
-      task
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  // Verify assigned user exists
+  const User = require('../models/user.model');
+  const user = await User.findById(assignedTo);
+  if (!user) {
+    throw new AppError('User not found', 'USER_NOT_FOUND', 404);
   }
-};
 
-//  Employee gets own tasks
-exports.getMyTasks = async (req, res) => {
-  try {
-    const tasks = await Task.find({ assignedTo: req.user._id })
-      .sort({ createdAt: -1 });
+  const task = await Task.create({
+    title,
+    description,
+    assignedTo,
+    createdBy: req.user._id
+  });
 
-    res.json({ tasks });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  // Create notification (Fixed: using backticks for template literal)
+  await Notification.create({
+    user: assignedTo,
+    title: 'New Task Assigned',
+    message: `You have been assigned a new task: ${title}`
+  });
+
+  logger.info('Task created', { taskId: task._id, assignedTo });
+
+  res.status(201).json({
+    success: true,
+    message: 'Task created successfully',
+    task
+  });
+});
+
+// Employee gets own tasks
+exports.getMyTasks = asyncHandler(async (req, res) => {
+  const tasks = await Task.find({ assignedTo: req.user._id })
+    .populate('createdBy', 'fullName email')
+    .sort({ createdAt: -1 });
+
+  res.json({
+    success: true,
+    count: tasks.length,
+    tasks
+  });
+});
+
+// Update task status (employee)
+exports.updateTaskStatus = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+
+  const task = await Task.findOne({
+    _id: req.params.id,
+    assignedTo: req.user._id
+  });
+
+  if (!task) {
+    throw new AppError('Task not found', 'TASK_NOT_FOUND', 404);
   }
-};
 
-//  Update task status (employee)
-exports.updateTaskStatus = async (req, res) => {
-  try {
-    const { status } = req.body;
+  const oldStatus = task.status;
+  task.status = status;
+  await task.save();
 
-    const task = await Task.findOne({
-      _id: req.params.id,
-      assignedTo: req.user._id
-    });
+  logger.info('Task status updated', { taskId: task._id, oldStatus, newStatus: status });
 
-    if (!task) {
-      return res.status(404).json({ message: 'Task not found' });
-    }
-
-    task.status = status;
-    await task.save();
-
-    res.json({
-      message: 'Task status updated',
-      task
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+  res.json({
+    success: true,
+    message: 'Task status updated successfully',
+    task
+  });
+});
