@@ -5,8 +5,11 @@ const { protect } = require('../middleware/auth.middleware');
 const { adminOnly } = require('../middleware/role.middleware');
 const taskController = require('../controllers/task.controller');
 
-//  Admin creates task
-router.post('/', protect, adminOnly, taskController.createTask);
+//  Admin creates task for others
+router.post('/admin', protect, adminOnly, taskController.createTask);
+
+//  Employee creates own task
+router.post('/', protect, taskController.createOwnTask);
 
 //  Employee views own tasks
 router.get('/my', protect, taskController.getMyTasks);

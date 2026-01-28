@@ -68,6 +68,7 @@
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
 }
 
 .quick-actions h2 {
@@ -99,6 +100,353 @@
   box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
 }
 
+/* Form Styles */
+.form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 250ms;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 250ms;
+  font-size: 14px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Alert Styles */
+.alert {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.alert-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-left: 4px solid #dc2626;
+}
+
+.alert-success {
+  background-color: #dcfce7;
+  color: #166534;
+  border-left: 4px solid #16a34a;
+}
+
+/* Leaves Styles */
+.leaves-list {
+  display: grid;
+  gap: 16px;
+}
+
+.leave-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #3b82f6;
+}
+
+.leave-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.leave-header h3 {
+  color: #111827;
+  margin: 0;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.leave-details {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.leave-details p {
+  margin: 6px 0;
+}
+
+/* Skills Styles */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.skill-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3b82f6;
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.skill-header h3 {
+  margin: 0;
+  color: #111827;
+}
+
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 250ms;
+  padding: 4px 8px;
+}
+
+.btn-delete:hover {
+  transform: scale(1.2);
+}
+
+.proficiency-section {
+  margin-bottom: 16px;
+}
+
+.proficiency-section label {
+  display: block;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.proficiency-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.proficiency-bar {
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Admin Styles */
+.admin-actions {
+  margin-bottom: 40px;
+}
+
+.admin-actions h2,
+.recent-activity h2 {
+  color: #111827;
+  margin-bottom: 24px;
+  font-size: 20px;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.action-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 250ms;
+  text-align: center;
+}
+
+.action-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.action-card h3 {
+  color: #111827;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.action-card p {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.action-link {
+  background: transparent;
+  color: #3b82f6;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 250ms;
+}
+
+.action-link:hover {
+  color: #2563eb;
+  transform: translateX(4px);
+}
+
+.recent-activity {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.activity-time {
+  font-size: 12px;
+  color: #9ca3af;
+  min-width: 70px;
+}
+
+.activity-text {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Empty State */
+.empty-state {
+  background: white;
+  border-radius: 12px;
+  padding: 60px 20px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state p {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+/* Loading Container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 @media (max-width: 768px) {
   .dashboard-page {
     padding: 20px;
@@ -113,6 +461,18 @@
   }
 
   .action-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-grid {
     grid-template-columns: 1fr;
   }
 }

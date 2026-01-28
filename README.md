@@ -5,7 +5,7 @@
   <p align="center">
     A centralized, transparent, and intelligent workforce management system.
     <br />
-    <a href="./docs/PRD_Workforce_Platform.md"><strong>Explore the docs »</strong></a>
+    <a href="./docs/reference/PRD_Workforce_Platform.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="#demo">View Demo</a>
@@ -149,7 +149,7 @@ All three components (Frontend, Backend, ML Service) are **fully integrated and 
 ✅ **Error Handling**: Comprehensive error handling with user-friendly messages  
 ✅ **Orchestration**: One-command startup via `start.bat` (Windows) or `startup.sh` (Linux/Mac)  
 
-**👉 [See INTEGRATION_GUIDE.md for complete documentation →](./INTEGRATION_GUIDE.md)**
+**👉 [See INTEGRATION_GUIDE.md for complete documentation →](./docs/guides/INTEGRATION_GUIDE.md)**
 
 ---
 

@@ -84,6 +84,16 @@ exports.login = asyncHandler(async (req, res) => {
   });
 });
 
+// LOGOUT USER
+exports.logout = asyncHandler(async (req, res) => {
+  logger.info('User logged out successfully', { userId: req.user._id });
+  
+  return res.json({
+    success: true,
+    message: 'Logged out successfully'
+  });
+});
+
 // GET LOGGED-IN USER
 exports.getMe = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);

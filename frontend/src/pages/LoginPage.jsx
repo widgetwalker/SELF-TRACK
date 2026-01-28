@@ -9,13 +9,15 @@ import './LoginPage.css';
 const LoginPage = () => {
   const [email, setEmail] = useState('demo@selftrack.com');
   const [password, setPassword] = useState('demo123');
+  const [fullName, setFullName] = useState('');
+  const [role, setRole] = useState('employee');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [tab, setTab] = useState('login');
   const { handleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
@@ -28,6 +30,30 @@ const LoginPage = () => {
       }
     } catch (err) {
       setError(err.message || 'Login failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    if (!fullName.trim()) {
+      setError('Please enter your full name');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await apiClient.register(fullName, email, password, role);
+      if (response.success) {
+        handleLogin(response.user, response.token);
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -62,44 +88,100 @@ const LoginPage = () => {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={tab === 'login' ? handleLoginSubmit : handleRegisterSubmit} className="login-form">
             {error && <div className="error-message">{error}</div>}
 
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="your@email.com"
-              />
-            </div>
+            {tab === 'login' ? (
+              <>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="your@email.com"
+                  />
+                </div>
 
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="••••••••"
-              />
-            </div>
+                <div className="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    placeholder="••••••••"
+                  />
+                </div>
 
-            <button
-              type="submit"
-              className="btn-login"
-              disabled={loading}
-            >
-              {loading ? 'Logging in...' : 'Login'}
-            </button>
+                <button
+                  type="submit"
+                  className="btn-login"
+                  disabled={loading}
+                >
+                  {loading ? 'Logging in...' : 'Login'}
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="form-group">
+                  <label>Full Name</label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="your@email.com"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    placeholder="••••••••"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Role</label>
+                  <select value={role} onChange={(e) => setRole(e.target.value)}>
+                    <option value="employee">Employee</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn-login"
+                  disabled={loading}
+                >
+                  {loading ? 'Creating account...' : 'Register'}
+                </button>
+              </>
+            )}
           </form>
 
           <div className="demo-creds">
             <p>Demo Credentials:</p>
             <p><strong>Employee:</strong> demo@selftrack.com / demo123</p>
             <p><strong>Admin:</strong> admin@selftrack.com / admin123</p>
+            <p><strong>Or Register as:</strong> Select "Register" tab and choose your role</p>
           </div>
         </motion.div>
       </div>

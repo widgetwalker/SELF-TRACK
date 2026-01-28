@@ -173,6 +173,12 @@ class APIClient {
     return this.request('/auth/me');
   }
 
+  async logout() {
+    return this.request('/auth/logout', {
+      method: 'POST'
+    });
+  }
+
   // Task endpoints
   async getTasks(filter = '') {
     return this.request(`/tasks/my${filter ? `?status=${filter}` : ''}`);
@@ -213,6 +219,13 @@ class APIClient {
     return this.request('/skills/my', {
       method: 'PUT',
       body: JSON.stringify({ skills }),
+    });
+  }
+
+  async addMySkill(skill) {
+    return this.request('/skills/my', {
+      method: 'POST',
+      body: JSON.stringify(skill),
     });
   }
 

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/PageTransition';
 import Navigation from '../components/Navigation';
 import AuthContext from '../context/AuthContext';
@@ -7,6 +8,7 @@ import './DashboardPage.css';
 
 const DashboardPage = () => {
   const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const cards = [
     { icon: '📋', title: 'Tasks', value: '12', color: '#3b82f6' },
@@ -61,10 +63,10 @@ const DashboardPage = () => {
           >
             <h2>Quick Actions</h2>
             <div className="action-buttons">
-              <button className="action-btn">📝 Create Task</button>
-              <button className="action-btn">🏖️ Request Leave</button>
-              <button className="action-btn">⭐ Update Skills</button>
-              <button className="action-btn">📊 View Analytics</button>
+              <button className="action-btn" onClick={() => navigate('/tasks')}>📝 Create Task</button>
+              <button className="action-btn" onClick={() => navigate('/leaves')}>🏖️ Request Leave</button>
+              <button className="action-btn" onClick={() => navigate('/skills')}>⭐ Update Skills</button>
+              <button className="action-btn" onClick={() => navigate('/performance')}>📊 View Analytics</button>
             </div>
           </motion.section>
         </div>

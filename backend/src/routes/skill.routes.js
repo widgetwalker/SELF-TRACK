@@ -7,6 +7,7 @@ const skillController = require('../controllers/skill.controller');
 
 //  Employee
 router.get('/my', protect, skillController.getMySkills);
+router.post('/my', protect, skillController.addMySkill);
 router.put('/my', protect, skillController.updateMySkills);
 
 //  Admin

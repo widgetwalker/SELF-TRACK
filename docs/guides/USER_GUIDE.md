@@ -391,10 +391,10 @@ The system uses machine learning to provide insights:
 ## Quick Links
 
 - 🏠 [Home](/)
-- 📚 [API Docs](./API_DOCUMENTATION.md)
-- ⚡ [Quick Start](./QUICK_START.md)
+- 📚 [API Docs](../api/API_DOCUMENTATION.md)
+- ⚡ [Quick Start](../setup/QUICK_START.md)
 - 🔗 [Integration Guide](./INTEGRATION_GUIDE.md)
-- 🚀 [Production Setup](./PRODUCTION_SETUP.md)
+- 🚀 [Production Setup](../setup/PRODUCTION_SETUP.md)
 
 ---
 

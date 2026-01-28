@@ -5,21 +5,33 @@ const Notification = require('../models/notification.model');
 //  Employee applies for leave
 exports.applyLeave = async (req, res) => {
   try {
-    const { startDate, endDate, reason } = req.body;
+    const { startDate, endDate, reason, type } = req.body;
+
+    if (!startDate || !endDate || !reason) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Start date, end date, and reason are required' 
+      });
+    }
 
     const leave = await Leave.create({
       employee: req.user._id,
       startDate,
       endDate,
-      reason
+      reason,
+      type: type || 'casual'
     });
 
     res.status(201).json({
+      success: true,
       message: 'Leave request submitted',
       leave
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -29,9 +41,15 @@ exports.getMyLeaves = async (req, res) => {
     const leaves = await Leave.find({ employee: req.user._id })
       .sort({ createdAt: -1 });
 
-    res.json({ leaves });
+    res.json({ 
+      success: true,
+      leaves 
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -42,9 +60,15 @@ exports.getAllLeaves = async (req, res) => {
       .populate('employee', 'fullName email')
       .sort({ createdAt: -1 });
 
-    res.json({ leaves });
+    res.json({ 
+      success: true,
+      leaves 
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -54,12 +78,18 @@ exports.updateLeaveStatus = async (req, res) => {
     const { status } = req.body;
 
     if (!['approved', 'rejected'].includes(status)) {
-      return res.status(400).json({ message: 'Invalid status' });
+      return res.status(400).json({ 
+        success: false,
+        message: 'Invalid status' 
+      });
     }
 
     const leave = await Leave.findById(req.params.id);
     if (!leave) {
-      return res.status(404).json({ message: 'Leave not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'Leave not found' 
+      });
     }
 
     leave.status = status;
@@ -69,14 +99,18 @@ exports.updateLeaveStatus = async (req, res) => {
     await Notification.create({
       user: leave.employee,
       title: 'Leave update',
-      message: 'your leave request has been ${status}'
+      message: `Your leave request has been ${status}`
     });
 
     res.json({
+      success: true,
       message: `Leave ${status}`,
       leave
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };

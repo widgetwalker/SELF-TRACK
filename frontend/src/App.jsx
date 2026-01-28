@@ -33,6 +33,26 @@ function App() {
       }
     }
     setLoading(false);
+
+    // Listen for storage changes (multi-tab sync)
+    const handleStorageChange = (e) => {
+      if (e.key === 'worktrack_user') {
+        if (e.newValue) {
+          try {
+            setAuth(JSON.parse(e.newValue));
+            apiClient.setToken(JSON.parse(e.newValue).token);
+          } catch (err) {
+            setAuth(null);
+          }
+        } else {
+          setAuth(null);
+          apiClient.setToken(null);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   const handleLogin = (userData, token) => {

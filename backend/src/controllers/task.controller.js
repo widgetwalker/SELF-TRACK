@@ -37,6 +37,33 @@ exports.createTask = asyncHandler(async (req, res) => {
   });
 });
 
+// Employee creates own task
+exports.createOwnTask = asyncHandler(async (req, res) => {
+  const { title, description, priority, dueDate } = req.body;
+
+  if (!title) {
+    throw new AppError('Title is required', 'TITLE_REQUIRED', 400);
+  }
+
+  const task = await Task.create({
+    title,
+    description: description || '',
+    assignedTo: req.user._id,
+    createdBy: req.user._id,
+    priority: priority || 'medium',
+    dueDate,
+    status: 'todo'
+  });
+
+  logger.info('Task created by employee', { taskId: task._id, userId: req.user._id });
+
+  res.status(201).json({
+    success: true,
+    message: 'Task created successfully',
+    task
+  });
+});
+
 // Employee gets own tasks
 exports.getMyTasks = asyncHandler(async (req, res) => {
   const tasks = await Task.find({ assignedTo: req.user._id })
