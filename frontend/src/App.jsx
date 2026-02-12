@@ -1,112 +1,102 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import AuthContext from './context/AuthContext';
-import apiClient from './api-client-improved';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./auth/AuthContext";
 
-// Pages
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
-import TasksPage from './pages/TasksPage';
-import LeavesPage from './pages/LeavesPage';
-import SkillsPage from './pages/SkillsPage';
-import SalaryPage from './pages/SalaryPage';
-import AdminDashboardPage from './pages/AdminDashboardPage';
-import PerformanceInsightPage from './pages/PerformanceInsightPage';
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import NotFound from "./pages/NotFound";
+import AdminLayout from "./layouts/AdminLayout";
+import EmployeeLayout from "./layouts/EmployeeLayout";
+import ProtectedRoute from "./auth/ProtectedRoute";
+import EmployeeDashboard from "./pages/EmployeeDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import EmployeeTasks from "./pages/EmployeeTasks";
+import AdminTasks from "./pages/AdminTasks";
+import AdminEmployees from "./pages/AdminEmployees";
+import EmployeeLeaves from "./pages/EmployeeLeaves";
+import AdminLeaves from "./pages/AdminLeaves";
+import NotificationsPage from "./pages/NotificationsPage";
+import AdminAnalytics from "./pages/AdminAnalytics";
+import EmployeeSkills from "./pages/EmployeeSkills";
+import AdminSkills from "./pages/AdminSkills";
+import AdminSalary from "./pages/AdminSalary";
+import EmployeeSalary from "./pages/EmployeeSalary";
 
-// Styles
-import './styles/global.css';
 
 function App() {
-  const [auth, setAuth] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useAuth();
 
-  useEffect(() => {
-    // Check if user is logged in
-    const user = localStorage.getItem('worktrack_user');
-    if (user) {
-      try {
-        setAuth(JSON.parse(user));
-      } catch (e) {
-        localStorage.removeItem('worktrack_user');
-      }
-    }
-    setLoading(false);
-
-    // Listen for storage changes (multi-tab sync)
-    const handleStorageChange = (e) => {
-      if (e.key === 'worktrack_user') {
-        if (e.newValue) {
-          try {
-            setAuth(JSON.parse(e.newValue));
-            apiClient.setToken(JSON.parse(e.newValue).token);
-          } catch (err) {
-            setAuth(null);
-          }
-        } else {
-          setAuth(null);
-          apiClient.setToken(null);
-        }
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
-
-  const handleLogin = (userData, token) => {
-    const userData_with_token = { ...userData, token };
-    localStorage.setItem('worktrack_user', JSON.stringify(userData_with_token));
-    apiClient.setToken(token);
-    setAuth(userData_with_token);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('worktrack_user');
-    apiClient.setToken(null);
-    setAuth(null);
-  };
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  // Prevent flicker while auth loads
+  if (loading) return null;
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, handleLogin, handleLogout }}>
-      <Router>
-        <AnimatePresence mode="wait">
-          <Routes>
-            <Route path="/" element={!auth ? <HomePage /> : <Navigate to="/dashboard" />} />
-            <Route path="/login" element={!auth ? <LoginPage /> : <Navigate to="/dashboard" />} />
+    <BrowserRouter>
+      <Routes>
 
-            {/* Protected Routes */}
-            {auth && (
-              <>
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/tasks" element={<TasksPage />} />
-                <Route path="/leaves" element={<LeavesPage />} />
-                <Route path="/skills" element={<SkillsPage />} />
-                <Route path="/salary" element={<SalaryPage />} />
-                <Route path="/performance" element={<PerformanceInsightPage />} />
+        {/* DEFAULT ROUTE */}
+        <Route
+          path="/"
+          element={
+            user
+              ? user.role === "admin"
+                ? <Navigate to="/admin" />
+                : <Navigate to="/employee" />
+              : <Navigate to="/login" />
+          }
+        />
 
-                {auth.role === 'admin' && (
-                  <Route path="/admin" element={<AdminDashboardPage />} />
-                )}
-              </>
-            )}
+        {/* AUTH ROUTES */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-            {/* Catch all */}
-            <Route path="*" element={<Navigate to={auth ? "/dashboard" : "/"} />} />
-          </Routes>
-        </AnimatePresence>
-      </Router>
-    </AuthContext.Provider>
+        {/* ADMIN ROUTES */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="tasks" element={<AdminTasks />} />
+          <Route path="employees" element={<AdminEmployees />} />
+          <Route path="leaves" element={<AdminLeaves />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="analytics" element={<AdminAnalytics />} />
+          <Route path="skills" element={<AdminSkills />} />
+          <Route path="salary" element={<AdminSalary />} />
+
+
+
+
+
+        </Route>
+
+        {/* EMPLOYEE ROUTES */}
+        <Route
+          path="/employee"
+          element={
+            <ProtectedRoute role="employee">
+              <EmployeeLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<EmployeeDashboard />} />
+          <Route path="tasks" element={<EmployeeTasks />} />
+          <Route path="leaves" element={<EmployeeLeaves />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="skills" element={<EmployeeSkills />} />
+          <Route path="salary" element={<EmployeeSalary />} />
+
+
+
+        </Route>
+
+        {/* FALLBACK */}
+        <Route path="*" element={<NotFound />} />
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 

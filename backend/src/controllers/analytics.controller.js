@@ -5,7 +5,7 @@ const User = require('../models/user.model');
 //  ANALYTICS
 exports.getAnalytics = async (req, res) => {
   try {
-    // 👤 EMPLOYEE ANALYTICS
+    //  EMPLOYEE ANALYTICS
     if (req.user.role === 'employee') {
       const totalTasks = await Task.countDocuments({
         assignedTo: req.user._id

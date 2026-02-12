@@ -1,104 +1,66 @@
-const axios = require('axios');
-require('dotenv').config();
-
-const ML_BASE_URL = process.env.ML_BASE_URL || 'http://localhost:8000';
-const ML_TIMEOUT = process.env.ML_TIMEOUT || 10000;
-const MAX_RETRIES = 3;
-
-// Create axios instance with timeout and retries
-const mlClient = axios.create({
-  baseURL: ML_BASE_URL,
-  timeout: ML_TIMEOUT,
-});
-
-// Retry interceptor
-mlClient.interceptors.response.use(null, async (error) => {
-  const config = error.config;
-  
-  if (!config || !config.retry) {
-    config.retry = 0;
-  }
-
-  config.retry += 1;
-
-  if (config.retry <= MAX_RETRIES && !error.response) {
-    await new Promise(resolve => setTimeout(resolve, 1000 * config.retry));
-    return mlClient(config);
-  }
-
-  return Promise.reject(error);
-});
-
-const DEFAULT_RESPONSE = {
-  success: false,
-  message: 'ML service unavailable. Using default response.',
-  fallback: true,
-};
+// src/services/ml.service.js
 
 exports.getProductivityScore = async (features) => {
-  try {
-    const res = await mlClient.post('/predict/productivity', features);
-    return res.data;
-  } catch (error) {
-    console.error('ML Service Error (Productivity):', error.message);
-    return {
-      ...DEFAULT_RESPONSE,
-      productivity_score: 70, // default fallback score
-    };
-  }
+  const { tasks_total, tasks_completed, leave_count, skills_count } = features;
+
+  let score =
+    tasks_completed * 20 +
+    skills_count * 5 -
+    leave_count * 10;
+
+  score = Math.max(0, Math.min(100, score));
+  return score;
 };
 
 exports.getBurnoutRisk = async (features) => {
-  try {
-    const res = await mlClient.post('/predict/burnout', features);
-    return res.data;
-  } catch (error) {
-    console.error('ML Service Error (Burnout):', error.message);
-    return {
-      ...DEFAULT_RESPONSE,
-      burnout_risk: 'low', // safe default
-      confidence: 0.5,
-    };
+  const { avg_tasks_per_week, overdue_task_ratio } = features;
+
+  let risk = "low";
+  let confidence = 0.3;
+
+  if (avg_tasks_per_week > 12 || overdue_task_ratio > 0.5) {
+    risk = "high";
+    confidence = 0.85;
+  } else if (avg_tasks_per_week > 8) {
+    risk = "medium";
+    confidence = 0.6;
   }
+
+  return {
+    burnout_risk: risk,
+    confidence
+  };
 };
 
 exports.getAnomalyResult = async (features) => {
-  try {
-    const res = await mlClient.post('/predict/anomaly', features);
-    return res.data;
-  } catch (error) {
-    console.error('ML Service Error (Anomaly):', error.message);
-    return {
-      ...DEFAULT_RESPONSE,
-      anomaly: false,
-      severity: 'none',
-    };
+  const drop =
+    features.historical_avg_productivity -
+    features.current_productivity;
+
+  if (drop > 20) {
+    return { anomaly: true, severity: "high" };
   }
+
+  return { anomaly: false, severity: "low" };
 };
 
 exports.getPerformanceInsights = async (features) => {
-  try {
-    const res = await mlClient.post('/predict/insights', features);
-    return res.data;
-  } catch (error) {
-    console.error('ML Service Error (Insights):', error.message);
-    return {
-      ...DEFAULT_RESPONSE,
-      insights: 'ML service temporarily unavailable. Please try again later.',
-    };
+  const insights = [];
+  const recommendations = [];
+
+  if (features.productivity_score < 60) {
+    insights.push("Productivity is below optimal level");
+    recommendations.push("Focus on completing priority tasks");
   }
+
+  if (features.burnout_risk === "high") {
+    insights.push("High burnout risk detected");
+    recommendations.push("Apply for leave or reduce workload");
+  }
+
+  return {
+    insights,
+    recommendations
+  };
 };
 
-// Health check for ML service
-exports.checkMLServiceHealth = async () => {
-  try {
-    const res = await mlClient.get('/health');
-    return { healthy: true, message: 'ML Service is running' };
-  } catch (error) {
-    return {
-      healthy: false,
-      message: 'ML Service is unavailable',
-      error: error.message,
-    };
-  }
-};

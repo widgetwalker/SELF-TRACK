@@ -1,199 +1,259 @@
-<br />
-<div align="center">
-  <h1 align="center">Self-Track</h1>
+ 🌿 Self Tracking System
 
-  <p align="center">
-    A centralized, transparent, and intelligent workforce management system.
-    <br />
-    <a href="./docs/reference/PRD_Workforce_Platform.md"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="#demo">View Demo</a>
-    ·
-    <a href="#issues">Report Bug</a>
-    ·
-    <a href="#issues">Request Feature</a>
-  </p>
-</div>
+A full-stack employee productivity & well-being platform with role-based dashboards, AI-driven analytics, skill management, and salary tracking.
 
-<div align="center">
+Built with MERN Stack + ML microservices, designed to simulate a real corporate HR & productivity system.
 
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-![GitHub issues](https://img.shields.io/github/issues/widgetwalker/SELF-TRACK)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/widgetwalker/SELF-TRACK)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+🚀 Features Overview
+👤 Employee Features
 
-</div>
+📊 Personal Dashboard (Productivity, Burnout Risk)
 
----
+📋 Task Management
 
-## 📋 About The Project
+🧠 Skill Management (Add / Remove skills)
 
-**Self-Track** is a modern solution designed to bridge the gap between employee autonomy and organizational transparency. By integrating task management, HR processes, and skill development into a single platform, we empower organizations to foster a culture of growth and efficiency.
+💰 Salary History (Monthly breakdown)
 
-### 🌟 Key Features
+📝 Leave Requests
 
-*   **🎯 Smart Task Management**: Prioritized feeds, deadlines, and project grouping.
-*   **🏖️ Seamless HR Integration**: One-click leave requests and instant salary slip access.
-*   **📈 Skill Growth**: Track proficiency, validate skills, and visualize career progression.
-*   **🤖 AI-Powered Insights**:
-    *   *Productivity Scoring*: ML models analyze output and habits.
-    *   *Burnout Detection*: Early warning system for employee well-being.
-    *   *Anomaly Detection*: Identifies irregular patterns in workflow.
+🔔 Notifications & Alerts
 
----
+🛠 Admin Features
 
-## 🛠️ Built With
+👥 Employee Management
 
-This project leverages a robust tech stack to ensure scalability and performance.
+📋 Task Assignment & Tracking
 
-| Component | Technology | Description |
-| :--- | :--- | :--- |
-| **Frontend** | ![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB) ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat&logo=react-router&logoColor=white) | Modern SPA with routing |
-| **Backend** | ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=flat&logo=node.js&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=flat&logo=express&logoColor=%2361DAFB) | RESTful API & Business Logic |
-| **ML Service** | ![Python](https://img.shields.io/badge/python-3670A0?style=flat&logo=python&logoColor=ffdd54) ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi) | Predictive Models & Analytics |
-| **Database** | ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat&logo=mongodb&logoColor=white) | NoSQL Data Persistence |
-| **DevOps** | ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white) | Containerization |
+🧠 Skill Analytics (Team skill overview)
 
----
+💰 Salary Management (Assign salaries to employees)
 
-## 🚀 Getting Started
+📝 Leave Approval System
 
-Follow these steps to set up the project locally.
+📊 AI Analytics Dashboard
 
-### Prerequisites
+🚨 Burnout & Productivity Alerts
 
-*   **[Node.js](https://nodejs.org/)** (v18+)
-*   **[Python](https://www.python.org/)** (v3.11+)
-*   **[MongoDB](https://www.mongodb.com/)**: Ensure your local MongoDB instance is running on `localhost:27017`.
-*   **[Docker](https://www.docker.com/)** (optional, for containerized setup)
+🤖 AI / ML Features
 
-### ⚡ Quick Start
+Productivity Scoring
 
-**Windows:**
-```sh
-start.bat
-```
+Burnout Risk Detection
 
-**Linux/Mac (Docker):**
-```sh
-./startup.sh
-```
+Anomaly Detection
 
-This starts all three services (Frontend, Backend, ML Service) with a single command!
+Auto-run ML on task completion
 
-### Installation (Manual Setup)
+ML result storage & visualization
 
-1.  **Clone the repo**
-    ```sh
-    git clone https://github.com/widgetwalker/SELF-TRACK.git
-    cd SELF-TRACK
-    ```
+🏗 Tech Stack
+Frontend
 
-2.  **Backend Setup**
-    ```sh
-    cd backend
-    npm install
-    cp ENV_EXAMPLE .env
-    # Update .env with your MongoDB URI
-    ```
+React.js
 
-3.  **Frontend Setup**
-    ```sh
-    cd frontend
-    npm install
-    # Create .env file (optional)
-    echo REACT_APP_API_BASE_URL=http://localhost:5000 > .env
-    ```
+Tailwind CSS
 
-4.  **ML Service Setup**
-    ```sh
-    cd backend/ml-service
-    pip install -r requirements.txt
-    ```
+Axios
 
-### ▶️ Running the Application (Manual)
+Recharts
 
-1.  **Start the Backend API** (from /backend directory)
-    ```sh
-    npm run dev
-    ```
-    *Server runs on **http://localhost:5000**.*
+React Router
 
-2.  **Start the ML Service** (from /backend/ml-service directory)
-    ```sh
-    py -m uvicorn app:app --reload --port 8000
-    ```
-    *Service runs on **http://localhost:8000**.*
+Backend
 
-3.  **Start the Frontend** (from /frontend directory)
-    ```sh
-    npm start
-    ```
-    *React app runs on **http://localhost:3000**.*
+Node.js
 
-4.  **Access the Application**
-    - Homepage: http://localhost:3000
-    - Login: http://localhost:3000/login
-    - Dashboard: http://localhost:3000/dashboard
+Express.js
 
----
+MongoDB (Mongoose)
 
-## 🔗 Integration Details
+JWT Authentication
 
-All three components (Frontend, Backend, ML Service) are **fully integrated and operational**:
+Role-based Access Control
 
-✅ **Frontend → Backend**: Centralized API client (`frontend/src/api-client-improved.js`) with retry logic and error handling  
-✅ **Backend ↔ ML Service**: Integrated with timeout, retry logic, and graceful fallbacks  
-✅ **Backend ↔ Database**: Mongoose models persist all data to MongoDB Atlas  
-✅ **Error Handling**: Comprehensive error handling with user-friendly messages  
-✅ **Orchestration**: One-command startup via `start.bat` (Windows) or `startup.sh` (Linux/Mac)  
+ML Service
 
-**👉 [See INTEGRATION_GUIDE.md for complete documentation →](./docs/guides/INTEGRATION_GUIDE.md)**
+Python
 
----
+FastAPI
 
-## 🗺️ Roadmap
+Scikit-Learn
 
-- [x] **Phase 1: Foundation**
-    - [x] Monorepo Structure
-    - [x] Basic Auth & Role Management
-    - [x] Task CRUD
-- [x] **Phase 2: Intelligence**
-    - [x] ML Service Integration
-    - [ ] Advanced Analytics Dashboard
-    - [ ] Email Notifications
-- [x] **Phase 3: Frontend**
-    - [x] React Web App
-    - [ ] Mobile App (React Native)
+Pandas / NumPy
 
-See the [open issues](https://github.com/widgetwalker/SELF-TRACK/issues) for a full list of proposed features.
+📂 Project Structure
+self_tracking_system/
+│
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── models/
+│   │   ├── middleware/
+│   │   ├── services/
+│   │   └── server.js
+│   └── .env
+│
+├── ml-service/
+│   ├── app.py
+│   ├── models/
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── components/
+│   │   ├── api/
+│   │   ├── auth/
+│   │   └── App.jsx
+│   └── vite.config.js
+│
+└── README.md
 
----
+🔐 Authentication & Roles
+Role	Access
+Employee	Dashboard, Tasks, Skills, Salary, Leaves
+Admin	Employees, Tasks, Skills, Salary, Analytics
 
-## 🤝 Team Workflow
+JWT tokens are used for secure authentication.
 
-We use a **Main Branch Integration** workflow.
+🧠 Skill Module
+Employee
 
-*   `main`: Stable, integration branch.
-*   `back-end`: Active backend development.
-*   `front-end`: Active frontend development.
+Add skills
 
-**Merging:**
-When merging feature branches to `main`, Git handles the directory structure changes automatically. Always resolve conflicts by preserving the new folder structure (`backend/src/...`).
+Remove unwanted skills
 
----
+Skills persist in database
 
-## 📄 License
+Clean chip-based UI
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Admin
 
----
+View all employee skills
 
-## 📞 Contact
+Skill distribution analytics (future scope)
 
-Project Team - [GitHub Profile](https://github.com/widgetwalker)
+💰 Salary Module
+Admin
 
-Project Link: [https://github.com/widgetwalker/SELF-TRACK](https://github.com/widgetwalker/SELF-TRACK)
+Assign salary to employees
 
-<!-- README Updated by AntiGravity - Latest Version -->
+Monthly salary entry
+
+Auto calculation of net pay
+
+Salary history table
+
+Employee
+
+View salary history
+
+Month-wise breakdown
+
+📊 AI Analytics
+Productivity
+
+Task completion based scoring
+
+Latest score per employee
+
+Historical trends
+
+Burnout Detection
+
+Leave patterns
+
+Workload analysis
+
+Admin alerts for high-risk employees
+
+⚙️ Setup Instructions
+1️⃣ Clone Repository
+git clone https://github.com/your-username/self-tracking-system.git
+cd self-tracking-system
+
+2️⃣ Backend Setup
+cd backend
+npm install
+
+
+Create .env:
+
+PORT=5000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret
+
+
+Run backend:
+
+npm run dev
+
+3️⃣ ML Service Setup
+cd ml-service
+pip install -r requirements.txt
+python app.py
+
+
+Runs on:
+
+http://localhost:8000
+
+4️⃣ Frontend Setup
+cd frontend
+npm install
+npm run dev
+
+
+Runs on:
+
+http://localhost:5173
+
+📌 API Overview
+Skills
+
+GET /api/skills/me
+
+POST /api/skills
+
+GET /api/skills/admin
+
+Salary
+
+POST /api/salaries
+
+GET /api/salaries/me
+
+GET /api/salaries/admin
+
+ML
+
+POST /api/ml/productivity
+
+POST /api/ml/burnout
+
+GET /api/ml/admin/productivity
+
+🧪 Sample Credentials
+Admin:
+email: admin@test.com
+password: admin123
+
+Employee:
+email: employee@test.com
+password: employee123
+
+🎯 Future Enhancements
+
+Skill levels (Beginner / Intermediate / Expert)
+
+Salary prediction using ML
+
+Team productivity heatmaps
+
+Skill-based task assignment
+
+Performance-based incentives
+
+Charts for skill growth & salary trends

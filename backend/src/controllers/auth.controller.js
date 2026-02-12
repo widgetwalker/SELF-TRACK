@@ -1,9 +1,7 @@
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
-const { asyncHandler, AppError } = require('../utils/error-handler');
-const logger = require('../utils/logger');
 
-// Generate JWT Token
+//  Generate JWT Token
 const generateToken = (userId) => {
   return jwt.sign(
     { id: userId },
@@ -12,105 +10,103 @@ const generateToken = (userId) => {
   );
 };
 
-// REGISTER USER
-exports.register = asyncHandler(async (req, res) => {
-  const { fullName, email, password, role } = req.body;
+//  REGISTER USER
+exports.register = async (req, res) => {
+  try {
+    const { fullName, email, password, role } = req.body;
 
-  // Check if user already exists
-  const userExists = await User.findOne({ email: email.toLowerCase() });
-  if (userExists) {
-    throw new AppError('Email already registered', 'EMAIL_EXISTS', 409);
-  }
-
-  // Create new user (password will be hashed by model)
-  const user = await User.create({
-    fullName,
-    email: email.toLowerCase(),
-    password,
-    role: role || 'employee',
-    skills: []
-  });
-
-  const token = generateToken(user._id);
-  
-  logger.info('User registered successfully', { userId: user._id, email: user.email });
-
-  return res.status(201).json({
-    success: true,
-    message: 'User registered successfully',
-    token,
-    user: {
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      role: user.role
+    // Check if user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: 'User already exists' });
     }
-  });
-});
 
-// LOGIN USER
-exports.login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+    // Create new user (password will be hashed by model)
+    const user = await User.create({
+      fullName,
+      email,
+      password,
+      role
+    });
 
-  // Find user and include password field
-  const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
-  
-  if (!user) {
-    logger.warn('Login failed - user not found', { email });
-    throw new AppError('Invalid credentials', 'INVALID_CREDENTIALS', 401);
+    return res.status(201).json({
+      message: 'User registered successfully',
+      token: generateToken(user._id)
+    });
+
+  } catch (error) {
+    console.error('Register Error:', error);
+    return res.status(500).json({ message: 'Server error' });
   }
+};
 
-  // Compare password
-  const isMatch = await user.comparePassword(password);
-  if (!isMatch) {
-    logger.warn('Login failed - invalid password', { email });
-    throw new AppError('Invalid credentials', 'INVALID_CREDENTIALS', 401);
-  }
+//  LOGIN USER
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-  const token = generateToken(user._id);
-  
-  logger.info('User logged in successfully', { userId: user._id, email: user.email });
-
-  return res.json({
-    success: true,
-    message: 'Login successful',
-    token,
-    user: {
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      role: user.role
+    // Find user and include password
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
-  });
-});
 
-// LOGOUT USER
-exports.logout = asyncHandler(async (req, res) => {
-  logger.info('User logged out successfully', { userId: req.user._id });
-  
-  return res.json({
-    success: true,
-    message: 'Logged out successfully'
-  });
-});
+    // Compare password
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
 
-// GET LOGGED-IN USER
-exports.getMe = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user.id);
-  
-  if (!user) {
-    throw new AppError('User not found', 'USER_NOT_FOUND', 404);
+    return res.json({
+      message: 'Login successful',
+      token: generateToken(user._id)
+    });
+
+  } catch (error) {
+    console.error('Login Error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+  //  GET LOGGED-IN USER
+  exports.getMe = async (req, res) => {
+    return res.status(200).json({
+      success: true,
+      user: req.user
+    });
   }
 
-  return res.status(200).json({
-    success: true,
-    user: {
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      role: user.role,
-      skills: user.skills
-    }
-  });
-});
 
+
+//  LOGIN USER
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find user and include password
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Compare password
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    return res.status(200).json({
+      token: generateToken(user._id),
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role
+      }
+    });
+
+  } catch (error) {
+    console.error('Login Error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};

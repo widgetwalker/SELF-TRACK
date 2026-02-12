@@ -11,6 +11,6 @@ router.get('/my', protect, leaveController.getMyLeaves);
 
 //  Admin
 router.get('/', protect, adminOnly, leaveController.getAllLeaves);
-router.put('/:id/status', protect, adminOnly, leaveController.updateLeaveStatus);
+router.patch("/:id", protect, adminOnly, leaveController.updateLeaveStatus);
 
 module.exports = router;

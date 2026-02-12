@@ -1,104 +1,176 @@
-const Task = require('../models/task.model');
-const Notification = require('../models/notification.model');
-const { asyncHandler, AppError } = require('../utils/error-handler');
-const logger = require('../utils/logger');
+const Task = require("../models/task.model");
+const Notification = require("../models/notification.model");
+const User = require("../models/user.model");
+const axios = require("axios");
 
-// Admin creates a task
-exports.createTask = asyncHandler(async (req, res) => {
-  const { title, description, assignedTo } = req.body;
+/* ==========================
+   ADMIN CREATES TASK
+========================== */
+exports.createTask = async (req, res) => {
+  try {
+    const { title, description, assignedTo } = req.body;
 
-  // Verify assigned user exists
-  const User = require('../models/user.model');
-  const user = await User.findById(assignedTo);
-  if (!user) {
-    throw new AppError('User not found', 'USER_NOT_FOUND', 404);
+    const task = await Task.create({
+      title,
+      description,
+      assignedTo,
+      createdBy: req.user._id
+    });
+
+    //  Notify employee
+    await Notification.create({
+      user: assignedTo,
+      title: "New Task Assigned",
+      message: `You have been assigned a new task: ${title}`
+    });
+
+    res.status(201).json({
+      message: "Task created successfully",
+      task
+    });
+  } catch (error) {
+    console.error("CREATE TASK ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
+};
 
-  const task = await Task.create({
-    title,
-    description,
-    assignedTo,
-    createdBy: req.user._id
-  });
+/* ==========================
+   EMPLOYEE GETS OWN TASKS
+========================== */
+exports.getMyTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ assignedTo: req.user._id })
+      .sort({ createdAt: -1 });
 
-  // Create notification (Fixed: using backticks for template literal)
-  await Notification.create({
-    user: assignedTo,
-    title: 'New Task Assigned',
-    message: `You have been assigned a new task: ${title}`
-  });
-
-  logger.info('Task created', { taskId: task._id, assignedTo });
-
-  res.status(201).json({
-    success: true,
-    message: 'Task created successfully',
-    task
-  });
-});
-
-// Employee creates own task
-exports.createOwnTask = asyncHandler(async (req, res) => {
-  const { title, description, priority, dueDate } = req.body;
-
-  if (!title) {
-    throw new AppError('Title is required', 'TITLE_REQUIRED', 400);
+    res.json({ tasks });
+  } catch (error) {
+    console.error("GET MY TASKS ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
+};
 
-  const task = await Task.create({
-    title,
-    description: description || '',
-    assignedTo: req.user._id,
-    createdBy: req.user._id,
-    priority: priority || 'medium',
-    dueDate,
-    status: 'todo'
-  });
+/* ==========================
+   UPDATE TASK STATUS
+========================== */
+exports.updateTaskStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
 
-  logger.info('Task created by employee', { taskId: task._id, userId: req.user._id });
+    const task = await Task.findOne({
+      _id: req.params.id,
+      assignedTo: req.user._id
+    });
 
-  res.status(201).json({
-    success: true,
-    message: 'Task created successfully',
-    task
-  });
-});
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
 
-// Employee gets own tasks
-exports.getMyTasks = asyncHandler(async (req, res) => {
-  const tasks = await Task.find({ assignedTo: req.user._id })
-    .populate('createdBy', 'fullName email')
-    .sort({ createdAt: -1 });
+    task.status = status;
+    await task.save();
 
-  res.json({
-    success: true,
-    count: tasks.length,
-    tasks
-  });
-});
-
-// Update task status (employee)
-exports.updateTaskStatus = asyncHandler(async (req, res) => {
-  const { status } = req.body;
-
-  const task = await Task.findOne({
-    _id: req.params.id,
-    assignedTo: req.user._id
-  });
-
-  if (!task) {
-    throw new AppError('Task not found', 'TASK_NOT_FOUND', 404);
+    res.json({
+      message: "Task status updated",
+      task
+    });
+  } catch (error) {
+    console.error("UPDATE TASK ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
+};
 
-  const oldStatus = task.status;
-  task.status = status;
-  await task.save();
+/* ==========================
+    COMPLETE TASK
+    Notify Admins
+    Auto-run ML
+========================== */
+exports.completeTask = async (req, res) => {
+  try {
+    const task = await Task.findOne({
+      _id: req.params.id,
+      assignedTo: req.user._id
+    });
 
-  logger.info('Task status updated', { taskId: task._id, oldStatus, newStatus: status });
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
 
-  res.json({
-    success: true,
-    message: 'Task status updated successfully',
-    task
-  });
-});
+    //  Prevent duplicate completion
+    if (task.status === "completed") {
+      return res.status(400).json({
+        message: "Task already completed"
+      });
+    }
+
+    /* ==========================
+       1️ Mark task completed
+    ========================== */
+    task.status = "completed";
+    await task.save();
+
+    /* ==========================
+       2️ Notify Admins
+    ========================== */
+    const admins = await User.find({ role: "admin" });
+
+    await Promise.all(
+      admins.map(admin =>
+        Notification.create({
+          user: admin._id,
+          title: "Task Completed",
+          message: `${
+            req.user.fullName || req.user.email
+          } completed task: ${task.title}`
+        })
+      )
+    );
+
+    /* ==========================
+       3️ AUTO-RUN ML PIPELINE
+    ========================== */
+    const authHeader = req.headers.authorization;
+
+    try {
+      await axios.post(
+        "http://localhost:5000/api/ml/productivity",
+        {},
+        { headers: { Authorization: authHeader } }
+      );
+
+      await axios.post(
+        "http://localhost:5000/api/ml/burnout",
+        {},
+        { headers: { Authorization: authHeader } }
+      );
+    } catch (mlError) {
+      console.error("AUTO ML FAILED:", mlError.message);
+      //  ML failure should NOT block task completion
+    }
+
+    res.json({
+      message: "Task completed & ML updated",
+      task
+    });
+  } catch (error) {
+    console.error("COMPLETE TASK ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/* ==========================
+   ADMIN GETS ALL TASKS
+========================== */
+exports.getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find()
+      .populate("assignedTo", "fullName email")
+      .sort({ createdAt: -1 });
+
+    res.json({ tasks });
+  } catch (error) {
+    console.error("GET ALL TASKS ERROR:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+

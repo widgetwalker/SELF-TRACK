@@ -1,51 +1,77 @@
-const Salary = require('../models/salary.model');
-const Notification = require('../models/notification.model');
+const Salary = require("../models/salary.model");
+const Notification = require("../models/notification.model");
 
-
-//  Admin uploads salary
+/* =======================
+   ADMIN: CREATE SALARY
+======================= */
 exports.createSalary = async (req, res) => {
   try {
-    const { employee, month, basic, allowances, deductions } = req.body;
+    const { user, month, basic, allowances = 0, deductions = 0 } = req.body;
 
-    const netPay = basic + (allowances || 0) - (deductions || 0);
+    const netPay = basic + allowances - deductions;
 
     const salary = await Salary.create({
-      employee,
+      user,
       month,
       basic,
       allowances,
       deductions,
       netPay,
-      uploadedBy: req.user._id
+      createdBy: req.user._id
     });
 
     await Notification.create({
-      user: employee,
-      title: 'Salary Uploaded',
-      message: 'your salary for ${month} has been uploaded'
+      user,
+      title: "Salary Uploaded",
+      message: `Your salary for ${month} has been uploaded`
     });
-    res.status(201).json({
-      message: 'Salary uploaded successfully',
-      salary
-    });
+
+    res.status(201).json({ salary });
   } catch (error) {
     if (error.code === 11000) {
-      return res.status(400).json({
-        message: 'Salary already exists for this employee and month'
-      });
+      return res
+        .status(400)
+        .json({ message: "Salary already exists for this month" });
     }
     res.status(500).json({ message: error.message });
   }
 };
 
-//  Employee views own salary history
+/* =======================
+   EMPLOYEE: MY SALARY
+======================= */
 exports.getMySalary = async (req, res) => {
-  try {
-    const salaries = await Salary.find({ employee: req.user._id })
-      .sort({ month: -1 });
+  const salaries = await Salary.find({ user: req.user._id }).sort({
+    createdAt: -1
+  });
+  res.json(salaries);
+};
 
-    res.json({ salaries });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+/* =======================
+   ADMIN: ALL SALARIES
+======================= */
+exports.getAllSalaries = async (req, res) => {
+  const salaries = await Salary.find()
+    .populate("user", "fullName email")
+    .sort({ createdAt: -1 });
+
+  res.json(salaries);
+};
+
+/* =======================
+   ADMIN: SALARY STATS
+======================= */
+exports.getSalaryStats = async (req, res) => {
+  const salaries = await Salary.find();
+
+  const totalPayroll = salaries.reduce((sum, s) => sum + s.netPay, 0);
+  const avgSalary = salaries.length
+    ? Math.round(totalPayroll / salaries.length)
+    : 0;
+
+  res.json({
+    totalPayroll,
+    avgSalary,
+    records: salaries.length
+  });
 };

@@ -1,19 +1,37 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { protect } = require('../middleware/auth.middleware');
-const mlController = require('../controllers/ml.controller');
-const { adminOnly } = require('../middleware/role.middleware');
+const { protect } = require("../middleware/auth.middleware");
+const { adminOnly } = require("../middleware/role.middleware");
 
-// Employee ML routes
-router.post('/productivity', protect, mlController.runProductivityML);
-router.post('/burnout', protect, mlController.runBurnoutDetection);
-router.post('/anomaly', protect, mlController.runAnomalyDetection);
-router.post('/insights', protect, mlController.runPerformanceInsights);
+const {
+  runProductivityML,
+  runBurnoutDetection,
+  runAnomalyDetection,
+  runPerformanceInsights,
+  getProductivityHistory,
+  adminProductivityOverview,
+  adminBurnoutOverview,
+  adminAnomalyOverview
+} = require("../controllers/ml.controller");
 
-// Admin ML dashboard routes
-router.get('/admin/productivity', protect, adminOnly, mlController.adminProductivityOverview);
-router.get('/admin/burnout', protect, adminOnly, mlController.adminBurnoutOverview);
-router.get('/admin/anomaly', protect, adminOnly, mlController.adminAnomalyOverview);
+/* =======================
+   EMPLOYEE ML ROUTES
+======================= */
+router.post("/productivity", protect, runProductivityML);
+router.get("/productivity/history", protect, getProductivityHistory);
+
+router.post("/burnout", protect, runBurnoutDetection);
+router.post("/anomaly", protect, runAnomalyDetection);
+router.get("/insights", protect, runPerformanceInsights);
+
+/* =======================
+   ADMIN ML ROUTES
+======================= */
+router.get("/admin/productivity", protect, adminOnly, adminProductivityOverview);
+router.get("/admin/burnout", protect, adminOnly, adminBurnoutOverview);
+router.get("/admin/anomaly", protect, adminOnly, adminAnomalyOverview);
 
 module.exports = router;
+
+

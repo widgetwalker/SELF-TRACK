@@ -1,16 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { protect } = require('../middleware/auth.middleware');
-const { adminOnly } = require('../middleware/role.middleware');
-const skillController = require('../controllers/skill.controller');
+const { protect } = require("../middleware/auth.middleware");
+const { adminOnly } = require("../middleware/role.middleware");
 
-//  Employee
-router.get('/my', protect, skillController.getMySkills);
-router.post('/my', protect, skillController.addMySkill);
-router.put('/my', protect, skillController.updateMySkills);
+const {
+  addSkill,
+  getMySkills,
+  getAllSkills
+} = require("../controllers/skill.controller");
 
-//  Admin
-router.get('/all', protect, adminOnly, skillController.getAllSkills);
+router.post("/", protect, addSkill);
+router.get("/me", protect, getMySkills);
+router.get("/admin", protect, adminOnly, getAllSkills);
 
 module.exports = router;
+
+
+
